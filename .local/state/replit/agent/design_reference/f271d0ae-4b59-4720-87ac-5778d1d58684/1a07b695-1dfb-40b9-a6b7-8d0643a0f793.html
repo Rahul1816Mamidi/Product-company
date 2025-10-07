@@ -1,0 +1,843 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Product Manager - Intelligent Product Development Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'ai-blue': '#3B82F6',
+                        'ai-indigo': '#6366F1',
+                        'ai-slate': {
+                            50: '#F8FAFC',
+                            800: '#1E293B',
+                            900: '#0F172A'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-inter bg-ai-slate-50 text-ai-slate-800">
+    <!-- @COMPONENT: AppHeader -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-ai-blue to-ai-indigo rounded-lg flex items-center justify-center">
+                        <i class="fas fa-robot text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-ai-slate-900">AI Product Manager</h1>
+                        <p class="text-xs text-gray-500">Intelligent Product Development Assistant</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-500 hover:text-ai-blue transition-colors" data-event="click:exportSession">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button class="text-gray-500 hover:text-ai-blue transition-colors" data-event="click:showSettings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="w-8 h-8 bg-ai-blue rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium" data-bind="user.initials">JD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: AppHeader -->
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            
+            <!-- @COMPONENT: Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold mb-4">Session History</h2>
+                    
+                    <!-- @MAP: sessions.map(session => ( -->
+                    <div class="space-y-3" data-mock="true">
+                        <div class="p-3 rounded-lg bg-ai-blue/5 border-l-4 border-ai-blue cursor-pointer hover:bg-ai-blue/10 transition-colors">
+                            <h3 class="font-medium text-sm">E-learning Platform</h3>
+                            <p class="text-xs text-gray-500 mt-1">Mobile app for personalized learning</p>
+                            <span class="text-xs text-ai-blue">2 hours ago</span>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+                            <h3 class="font-medium text-sm">Fitness Tracker</h3>
+                            <p class="text-xs text-gray-500 mt-1">Wearable integration challenges</p>
+                            <span class="text-xs text-gray-500">1 day ago</span>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+                            <h3 class="font-medium text-sm">Food Delivery App</h3>
+                            <p class="text-xs text-gray-500 mt-1">Market competition analysis</p>
+                            <span class="text-xs text-gray-500">3 days ago</span>
+                        </div>
+                    </div>
+                    <!-- @END_MAP )) -->
+                    
+                    <button class="w-full mt-4 px-4 py-2 bg-ai-blue text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium" data-event="click:startNewSession">
+                        <i class="fas fa-plus mr-2"></i>New Session
+                    </button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mt-6">
+                    <h2 class="text-lg font-semibold mb-4">Quick Actions</h2>
+                    <div class="space-y-2">
+                        <button class="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors text-sm" data-event="click:quickMarketResearch">
+                            <i class="fas fa-chart-line text-ai-blue mr-3"></i>Market Research
+                        </button>
+                        <button class="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors text-sm" data-event="click:quickPRDTemplate">
+                            <i class="fas fa-file-alt text-ai-indigo mr-3"></i>PRD Template
+                        </button>
+                        <button class="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors text-sm" data-event="click:quickWireframeGuide">
+                            <i class="fas fa-sitemap text-emerald-500 mr-3"></i>Wireframe Guide
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: Sidebar -->
+
+            <!-- @COMPONENT: MainContent -->
+            <div class="lg:col-span-3">
+                
+                <!-- Input Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold">Describe Your Product Idea</h2>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">AI Status:</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                <div class="w-2 h-2 bg-emerald-400 rounded-full mr-1.5"></div>
+                                Online
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Product Description & Problem Statement</label>
+                            <textarea 
+                                class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ai-blue focus:border-transparent resize-none"
+                                rows="4"
+                                placeholder="Example: I want to build a mobile app that helps remote workers find and book co-working spaces. The main problems are: 1) Difficulty finding available spaces in real-time, 2) Lack of pricing transparency, 3) No way to verify workspace quality beforehand..."
+                                data-bind="productInput"
+                                data-mock="true"
+                            >I want to build a mobile app that helps remote workers find and book co-working spaces. The main problems are: 1) Difficulty finding available spaces in real-time, 2) Lack of pricing transparency, 3) No way to verify workspace quality beforehand.</textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Target Industry</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ai-blue focus:border-transparent" data-bind="industry">
+                                    <option value="">Select Industry</option>
+                                    <option value="fintech">FinTech</option>
+                                    <option value="healthtech">HealthTech</option>
+                                    <option value="edtech">EdTech</option>
+                                    <option value="workspace" selected>Workspace/PropTech</option>
+                                    <option value="ecommerce">E-Commerce</option>
+                                    <option value="social">Social Media</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Urgency Level</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ai-blue focus:border-transparent" data-bind="urgency">
+                                    <option value="low">Low - Research Phase</option>
+                                    <option value="medium" selected>Medium - Planning Phase</option>
+                                    <option value="high">High - Ready to Build</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-ai-blue focus:ring-ai-blue" checked data-bind="includeMarketResearch">
+                                    <span class="ml-2 text-sm text-gray-700">Include Market Research</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-ai-blue focus:ring-ai-blue" checked data-bind="generatePRD">
+                                    <span class="ml-2 text-sm text-gray-700">Generate PRD</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-ai-blue focus:ring-ai-blue" checked data-bind="wireframeGuidance">
+                                    <span class="ml-2 text-sm text-gray-700">Wireframe Guidance</span>
+                                </label>
+                            </div>
+                            <button class="px-6 py-3 bg-gradient-to-r from-ai-blue to-ai-indigo text-white rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 font-medium shadow-lg" data-event="click:analyzeProduct">
+                                <i class="fas fa-magic mr-2"></i>Analyze with AI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="space-y-6" data-mock="true">
+                    
+                    <!-- @COMPONENT: MarketResearchResults -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gradient-to-r from-ai-blue to-ai-indigo p-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-white flex items-center">
+                                    <i class="fas fa-chart-line mr-3"></i>Market Research Results
+                                </h3>
+                                <button class="text-white/80 hover:text-white transition-colors" data-event="click:exportMarketResearch">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-medium text-emerald-800">Market Size</h4>
+                                        <i class="fas fa-chart-pie text-emerald-600"></i>
+                                    </div>
+                                    <p class="text-2xl font-bold text-emerald-900 mt-2">$4.2B</p>
+                                    <p class="text-sm text-emerald-700">Co-working space market (2024)</p>
+                                </div>
+                                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-medium text-blue-800">Growth Rate</h4>
+                                        <i class="fas fa-trending-up text-blue-600"></i>
+                                    </div>
+                                    <p class="text-2xl font-bold text-blue-900 mt-2">13.2%</p>
+                                    <p class="text-sm text-blue-700">CAGR (2024-2029)</p>
+                                </div>
+                                <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-medium text-purple-800">Competitors</h4>
+                                        <i class="fas fa-users text-purple-600"></i>
+                                    </div>
+                                    <p class="text-2xl font-bold text-purple-900 mt-2">12</p>
+                                    <p class="text-sm text-purple-700">Major players identified</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-bullseye text-ai-blue mr-2"></i>Key Market Insights
+                                    </h4>
+                                    <div class="bg-gray-50 p-4 rounded-lg">
+                                        <ul class="space-y-2">
+                                            <li class="flex items-start">
+                                                <i class="fas fa-check-circle text-emerald-500 mr-2 mt-0.5"></i>
+                                                <span class="text-sm">Remote work adoption increased by 400% since 2020, driving co-working demand</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-check-circle text-emerald-500 mr-2 mt-0.5"></i>
+                                                <span class="text-sm">75% of remote workers struggle with finding suitable workspace options</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-check-circle text-emerald-500 mr-2 mt-0.5"></i>
+                                                <span class="text-sm">Booking platforms show 60% higher engagement than directory-only solutions</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-chess text-ai-indigo mr-2"></i>Competitive Landscape
+                                    </h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="border border-gray-200 rounded-lg p-4">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <h5 class="font-medium">WeWork</h5>
+                                                <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Direct Competitor</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mb-2">Global co-working provider with booking platform</p>
+                                            <div class="flex justify-between text-xs">
+                                                <span class="text-emerald-600">Strength: Brand recognition</span>
+                                                <span class="text-red-600">Weakness: Limited flexibility</span>
+                                            </div>
+                                        </div>
+                                        <div class="border border-gray-200 rounded-lg p-4">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <h5 class="font-medium">Breather</h5>
+                                                <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Indirect Competitor</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mb-2">On-demand private workspace rentals</p>
+                                            <div class="flex justify-between text-xs">
+                                                <span class="text-emerald-600">Strength: Flexibility</span>
+                                                <span class="text-red-600">Weakness: Limited locations</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: MarketResearchResults -->
+
+                    <!-- @COMPONENT: ProblemAnalysis -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gradient-to-r from-ai-indigo to-purple-600 p-4">
+                            <h3 class="text-lg font-semibold text-white flex items-center">
+                                <i class="fas fa-microscope mr-3"></i>Problem Analysis & Solutions
+                            </h3>
+                        </div>
+                        
+                        <div class="p-6">
+                            <!-- @MAP: problems.map(problem => ( -->
+                            <div class="space-y-6">
+                                <div class="border-l-4 border-red-400 pl-4">
+                                    <h4 class="font-semibold text-red-800 mb-2">Problem 1: Real-time Availability</h4>
+                                    <p class="text-sm text-gray-600 mb-3">Users cannot see real-time availability of co-working spaces, leading to wasted trips and booking conflicts.</p>
+                                    
+                                    <div class="bg-emerald-50 p-4 rounded-lg">
+                                        <h5 class="font-medium text-emerald-800 mb-2">Recommended Solutions:</h5>
+                                        <ul class="space-y-1 text-sm">
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>Integrate with space management APIs for live occupancy data</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>Implement IoT sensors for desk-level availability tracking</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>User check-in/check-out system with geofencing</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="border-l-4 border-red-400 pl-4">
+                                    <h4 class="font-semibold text-red-800 mb-2">Problem 2: Pricing Transparency</h4>
+                                    <p class="text-sm text-gray-600 mb-3">Hidden fees and unclear pricing structures make it difficult for users to budget and compare options.</p>
+                                    
+                                    <div class="bg-emerald-50 p-4 rounded-lg">
+                                        <h5 class="font-medium text-emerald-800 mb-2">Recommended Solutions:</h5>
+                                        <ul class="space-y-1 text-sm">
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>All-inclusive pricing display with fee breakdown</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>Price comparison tool across different spaces</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>Dynamic pricing based on demand and duration</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="border-l-4 border-red-400 pl-4">
+                                    <h4 class="font-semibold text-red-800 mb-2">Problem 3: Quality Verification</h4>
+                                    <p class="text-sm text-gray-600 mb-3">Users cannot assess workspace quality, amenities, and environment before booking, leading to disappointment.</p>
+                                    
+                                    <div class="bg-emerald-50 p-4 rounded-lg">
+                                        <h5 class="font-medium text-emerald-800 mb-2">Recommended Solutions:</h5>
+                                        <ul class="space-y-1 text-sm">
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>360° virtual tours and high-quality photo galleries</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>Verified user reviews and rating system</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                                                <span>Real-time amenity status (WiFi speed, noise level, temperature)</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: ProblemAnalysis -->
+
+                    <!-- @COMPONENT: TechStack -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-white flex items-center">
+                                    <i class="fas fa-code mr-3"></i>Recommended Tech Stack
+                                </h3>
+                                <button class="text-white/80 hover:text-white transition-colors" data-event="click:exportTechStack">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-mobile-alt text-blue-500 mr-2"></i>Frontend (Mobile)
+                                    </h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-blue-50 rounded">
+                                            <span class="text-sm font-medium">React Native</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Recommended</span>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                            <span class="text-sm">Flutter</span>
+                                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Alternative</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 mt-2">Cross-platform development with native performance</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-server text-green-500 mr-2"></i>Backend
+                                    </h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-green-50 rounded">
+                                            <span class="text-sm font-medium">Node.js + Express</span>
+                                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Recommended</span>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                            <span class="text-sm">Python + FastAPI</span>
+                                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Alternative</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 mt-2">RESTful APIs with real-time capabilities</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-database text-purple-500 mr-2"></i>Database
+                                    </h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-purple-50 rounded">
+                                            <span class="text-sm font-medium">PostgreSQL</span>
+                                            <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Primary</span>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-red-50 rounded">
+                                            <span class="text-sm">Redis</span>
+                                            <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Caching</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 mt-2">Relational data with caching layer</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>Maps & Location
+                                    </h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-red-50 rounded">
+                                            <span class="text-sm font-medium">Google Maps API</span>
+                                            <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Core</span>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-blue-50 rounded">
+                                            <span class="text-sm">Mapbox</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Enhanced UI</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 mt-2">Location services and mapping</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-credit-card text-yellow-500 mr-2"></i>Payments
+                                    </h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-yellow-50 rounded">
+                                            <span class="text-sm font-medium">Stripe</span>
+                                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Primary</span>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                            <span class="text-sm">PayPal</span>
+                                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Alternative</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 mt-2">Secure payment processing</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold mb-3 flex items-center">
+                                        <i class="fas fa-cloud text-indigo-500 mr-2"></i>Infrastructure
+                                    </h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-indigo-50 rounded">
+                                            <span class="text-sm font-medium">AWS/Azure</span>
+                                            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Cloud</span>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-orange-50 rounded">
+                                            <span class="text-sm">Docker</span>
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Containers</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 mt-2">Scalable cloud deployment</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: TechStack -->
+
+                    <!-- @COMPONENT: PRDDocument -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 p-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-white flex items-center">
+                                    <i class="fas fa-file-alt mr-3"></i>Product Requirements Document (PRD)
+                                </h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-white/80 hover:text-white transition-colors" data-event="click:editPRD">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-white/80 hover:text-white transition-colors" data-event="click:exportPRD">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div class="prose max-w-none">
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-semibold mb-3">1. Product Overview</h4>
+                                    <div class="bg-gray-50 p-4 rounded-lg">
+                                        <p><strong>Product Name:</strong> WorkSpace Finder</p>
+                                        <p><strong>Vision:</strong> To become the leading platform for discovering and booking flexible co-working spaces for remote workers worldwide.</p>
+                                        <p><strong>Mission:</strong> Simplify the process of finding, verifying, and booking co-working spaces with transparent pricing and real-time availability.</p>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-semibold mb-3">2. Target Users</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="border border-gray-200 p-4 rounded-lg">
+                                            <h5 class="font-medium mb-2">Primary: Remote Workers</h5>
+                                            <ul class="text-sm space-y-1">
+                                                <li>• Digital nomads and freelancers</li>
+                                                <li>• Remote employees seeking workspace</li>
+                                                <li>• Consultants and contractors</li>
+                                            </ul>
+                                        </div>
+                                        <div class="border border-gray-200 p-4 rounded-lg">
+                                            <h5 class="font-medium mb-2">Secondary: Space Providers</h5>
+                                            <ul class="text-sm space-y-1">
+                                                <li>• Co-working space operators</li>
+                                                <li>• Cafes with workspace areas</li>
+                                                <li>• Hotels offering day-use spaces</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-semibold mb-3">3. Key Features</h4>
+                                    
+                                    <div class="space-y-4">
+                                        <div class="border-l-4 border-ai-blue pl-4">
+                                            <h5 class="font-medium text-ai-blue">Must-Have Features (MVP)</h5>
+                                            <ul class="mt-2 space-y-1 text-sm">
+                                                <li>✓ Location-based space discovery with map view</li>
+                                                <li>✓ Real-time availability display</li>
+                                                <li>✓ Transparent pricing with all fees included</li>
+                                                <li>✓ In-app booking and payment system</li>
+                                                <li>✓ Basic user profiles and space profiles</li>
+                                                <li>✓ Photo galleries for each space</li>
+                                                <li>✓ Basic review and rating system</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="border-l-4 border-emerald-500 pl-4">
+                                            <h5 class="font-medium text-emerald-600">Should-Have Features (Phase 2)</h5>
+                                            <ul class="mt-2 space-y-1 text-sm">
+                                                <li>✓ 360° virtual tours</li>
+                                                <li>✓ Advanced filtering (amenities, noise level, etc.)</li>
+                                                <li>✓ Booking history and favorites</li>
+                                                <li>✓ Push notifications for availability</li>
+                                                <li>✓ Integration with calendar apps</li>
+                                                <li>✓ Social features (workspace check-ins)</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="border-l-4 border-purple-500 pl-4">
+                                            <h5 class="font-medium text-purple-600">Could-Have Features (Future)</h5>
+                                            <ul class="mt-2 space-y-1 text-sm">
+                                                <li>✓ AI-powered space recommendations</li>
+                                                <li>✓ Loyalty program and credits system</li>
+                                                <li>✓ Corporate accounts and bulk booking</li>
+                                                <li>✓ Integration with productivity tools</li>
+                                                <li>✓ Community features and networking</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-semibold mb-3">4. Success Metrics</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="bg-blue-50 p-4 rounded-lg">
+                                            <h5 class="font-medium text-blue-800 mb-2">User Metrics</h5>
+                                            <ul class="text-sm space-y-1">
+                                                <li>• Monthly Active Users (MAU): 10K+ by month 6</li>
+                                                <li>• Booking conversion rate: 15%+</li>
+                                                <li>• User retention rate: 60%+ after 30 days</li>
+                                                <li>• Average session duration: 5+ minutes</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-emerald-50 p-4 rounded-lg">
+                                            <h5 class="font-medium text-emerald-800 mb-2">Business Metrics</h5>
+                                            <ul class="text-sm space-y-1">
+                                                <li>• GMV (Gross Merchandise Value): $100K+ monthly</li>
+                                                <li>• Average booking value: $25+</li>
+                                                <li>• Space partner satisfaction: 4.0+ rating</li>
+                                                <li>• Revenue per user: $15+ monthly</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: PRDDocument -->
+
+                    <!-- @COMPONENT: WireframeGuidance -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-gradient-to-r from-orange-600 to-red-600 p-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-white flex items-center">
+                                    <i class="fas fa-sitemap mr-3"></i>Wireframe & MVP Guidance
+                                </h3>
+                                <button class="text-white/80 hover:text-white transition-colors" data-event="click:exportWireframeGuide">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-semibold mb-3">Core User Flow</h4>
+                                <div class="flex flex-wrap items-center gap-2 mb-4">
+                                    <div class="bg-ai-blue text-white px-3 py-1 rounded-full text-sm">1. Discovery</div>
+                                    <i class="fas fa-arrow-right text-gray-400"></i>
+                                    <div class="bg-ai-indigo text-white px-3 py-1 rounded-full text-sm">2. Filter & Compare</div>
+                                    <i class="fas fa-arrow-right text-gray-400"></i>
+                                    <div class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm">3. View Details</div>
+                                    <i class="fas fa-arrow-right text-gray-400"></i>
+                                    <div class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm">4. Book & Pay</div>
+                                    <i class="fas fa-arrow-right text-gray-400"></i>
+                                    <div class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm">5. Check-in</div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold mb-3">Priority Screens for MVP</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <span class="text-red-600 text-sm font-bold">1</span>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-medium">Onboarding & Registration</h5>
+                                                    <p class="text-xs text-gray-500">Location permission, account setup</p>
+                                                </div>
+                                            </div>
+                                            <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Critical</span>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <span class="text-red-600 text-sm font-bold">2</span>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-medium">Map View with Spaces</h5>
+                                                    <p class="text-xs text-gray-500">Interactive map, space markers, filters</p>
+                                                </div>
+                                            </div>
+                                            <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Critical</span>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <span class="text-orange-600 text-sm font-bold">3</span>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-medium">Space Detail Page</h5>
+                                                    <p class="text-xs text-gray-500">Photos, amenities, pricing, availability</p>
+                                                </div>
+                                            </div>
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">High</span>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <span class="text-orange-600 text-sm font-bold">4</span>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-medium">Booking Flow</h5>
+                                                    <p class="text-xs text-gray-500">Date/time selection, payment, confirmation</p>
+                                                </div>
+                                            </div>
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">High</span>
+                                        </div>
+
+                                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <span class="text-yellow-600 text-sm font-bold">5</span>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-medium">User Profile & Bookings</h5>
+                                                    <p class="text-xs text-gray-500">History, settings, support</p>
+                                                </div>
+                                            </div>
+                                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Medium</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-semibold mb-3">Key Design Considerations</h4>
+                                    <div class="space-y-4">
+                                        <div class="bg-blue-50 p-4 rounded-lg">
+                                            <h5 class="font-medium text-blue-800 mb-2">Navigation Pattern</h5>
+                                            <p class="text-sm text-blue-700">Use bottom tab navigation with: Map, Search, Bookings, Profile. Keep map as the primary entry point.</p>
+                                        </div>
+
+                                        <div class="bg-emerald-50 p-4 rounded-lg">
+                                            <h5 class="font-medium text-emerald-800 mb-2">Search & Filters</h5>
+                                            <p class="text-sm text-emerald-700">Implement slide-up filter panel with categories: Price range, Amenities, Distance, Availability window.</p>
+                                        </div>
+
+                                        <div class="bg-purple-50 p-4 rounded-lg">
+                                            <h5 class="font-medium text-purple-800 mb-2">Booking UX</h5>
+                                            <p class="text-sm text-purple-700">Minimize friction with one-tap booking for registered users. Show price breakdown clearly before payment.</p>
+                                        </div>
+
+                                        <div class="bg-orange-50 p-4 rounded-lg">
+                                            <h5 class="font-medium text-orange-800 mb-2">Visual Hierarchy</h5>
+                                            <p class="text-sm text-orange-700">Use card-based layouts, clear CTAs, and visual indicators for availability status and quality ratings.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                                <h4 class="font-semibold mb-2 flex items-center">
+                                    <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                                    Next Steps for MVP Development
+                                </h4>
+                                <ol class="list-decimal list-inside space-y-2 text-sm">
+                                    <li>Create detailed wireframes for the 5 priority screens</li>
+                                    <li>Design a comprehensive design system (colors, typography, components)</li>
+                                    <li>Build interactive prototype for user testing</li>
+                                    <li>Conduct usability testing with 5-10 target users</li>
+                                    <li>Iterate based on feedback before development starts</li>
+                                    <li>Create technical specifications for backend APIs</li>
+                                    <li>Set up development environment and CI/CD pipeline</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: WireframeGuidance -->
+
+                </div>
+                
+            </div>
+            <!-- @END_COMPONENT: MainContent -->
+            
+        </div>
+    </div>
+
+    <!-- @COMPONENT: LoadingOverlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" data-state="isLoading">
+        <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+            <div class="flex items-center space-x-3">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-ai-blue"></div>
+                <div>
+                    <h3 class="font-medium">AI Analysis in Progress</h3>
+                    <p class="text-sm text-gray-500" data-bind="loadingMessage">Performing market research...</p>
+                </div>
+            </div>
+            <div class="mt-4 bg-gray-200 rounded-full h-2">
+                <div class="bg-gradient-to-r from-ai-blue to-ai-indigo h-2 rounded-full transition-all duration-500" style="width: 65%" data-bind="progressWidth"></div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: LoadingOverlay -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        
+        (function() {
+            // Scoped functionality for demo interactions
+            
+            // Handle analyze button click
+            const analyzeButton = document.querySelector('[data-event="click:analyzeProduct"]');
+            if (analyzeButton) {
+                analyzeButton.addEventListener('click', function() {
+                    // TODO: Implement product analysis API call
+                    console.log('Starting AI product analysis...');
+                    
+                    // Show loading overlay
+                    const loadingOverlay = document.getElementById('loadingOverlay');
+                    if (loadingOverlay) {
+                        loadingOverlay.classList.remove('hidden');
+                        
+                        // Hide after demo delay
+                        setTimeout(() => {
+                            loadingOverlay.classList.add('hidden');
+                        }, 3000);
+                    }
+                });
+            }
+
+            // Handle export buttons
+            const exportButtons = document.querySelectorAll('[data-event^="click:export"]');
+            exportButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const exportType = this.getAttribute('data-event').replace('click:export', '');
+                    console.log(`Exporting ${exportType}...`);
+                    // TODO: Implement document export functionality
+                });
+            });
+
+            // Handle new session button
+            const newSessionButton = document.querySelector('[data-event="click:startNewSession"]');
+            if (newSessionButton) {
+                newSessionButton.addEventListener('click', function() {
+                    console.log('Starting new session...');
+                    // TODO: Implement session management
+                });
+            }
+
+            // Handle quick action buttons
+            const quickActionButtons = document.querySelectorAll('[data-event^="click:quick"]');
+            quickActionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-event').replace('click:quick', '');
+                    console.log(`Quick action: ${action}`);
+                    // TODO: Implement quick action functionality
+                });
+            });
+
+        })();
+    </script>
+</body>
+</html>
