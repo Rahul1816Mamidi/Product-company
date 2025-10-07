@@ -11,10 +11,25 @@ export default function Home() {
   const [loadingMessage, setLoadingMessage] = useState("");
 
   return (
-    <div className="min-h-screen bg-ai-slate-50">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated mesh gradient background */}
+      <div className="fixed inset-0 mesh-gradient -z-10"></div>
+      
+      {/* Particle background effect */}
+      <div className="fixed inset-0 particle-bg -z-10"></div>
+      
+      {/* Grid overlay */}
+      <div className="fixed inset-0 -z-10" style={{
+        backgroundImage: `
+          linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '50px 50px'
+      }}></div>
+      
       <AppHeader />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <Sidebar 
             currentSessionId={currentSessionId}

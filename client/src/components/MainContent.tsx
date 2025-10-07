@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Zap, Edit } from "lucide-react";
 import type { Session, AnalysisResult } from "@shared/schema";
 import MarketResearchResults from "./results/MarketResearchResults";
 import ProblemAnalysis from "./results/ProblemAnalysis";
@@ -129,9 +129,13 @@ export default function MainContent({
   if (sessionLoading) {
     return (
       <div className="lg:col-span-3">
-        <div className="animate-pulse space-y-6">
-          <div className="h-64 bg-gray-200 rounded-lg"></div>
-          <div className="h-96 bg-gray-200 rounded-lg"></div>
+        <div className="space-y-6">
+          {[1, 2].map((i) => (
+            <div key={i} className="glass-card p-8 border-gradient animate-pulse" style={{ animationDelay: `${i * 100}ms` }}>
+              <div className="h-6 bg-gradient-to-r from-primary/20 to-accent/20 rounded-lg w-1/3 mb-4"></div>
+              <div className="h-32 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg"></div>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -140,29 +144,40 @@ export default function MainContent({
   return (
     <div className="lg:col-span-3">
       {isFormMode || !currentSession ? (
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Describe Your Product Idea</h2>
+        <Card className="glass-card border-gradient hover-lift transition-all duration-300 animate-scale-in">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gradient flex items-center gap-3">
+                  <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+                  Describe Your Product Idea
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">Let AI transform your vision into actionable intelligence</p>
+              </div>
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-500">AI Status:</span>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-1.5"></div>
+                <span className="text-sm text-muted-foreground">AI Status:</span>
+                <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse" data-testid="status-ai-online">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-2 animate-ping"></div>
                   Online
                 </span>
               </div>
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Session Title (Optional)</FormLabel>
+                      <FormLabel className="text-sm font-semibold text-foreground">Session Title (Optional)</FormLabel>
                       <FormControl>
-                        <Input placeholder="E.g., Co-working Space Finder App" {...field} />
+                        <Input 
+                          placeholder="E.g., Co-working Space Finder App" 
+                          className="h-12 glass-card border-gradient hover:glow-blue focus:glow-blue transition-all duration-200"
+                          data-testid="input-title"
+                          {...field} 
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -173,11 +188,12 @@ export default function MainContent({
                   name="productInput"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Product Description & Problem Statement</FormLabel>
+                      <FormLabel className="text-sm font-semibold text-foreground">Product Description & Problem Statement</FormLabel>
                       <FormControl>
                         <Textarea 
-                          className="min-h-[120px] resize-none"
+                          className="min-h-[150px] resize-none glass-card border-gradient hover:glow-blue focus:glow-blue transition-all duration-200 custom-scrollbar"
                           placeholder="Example: I want to build a mobile app that helps remote workers find and book co-working spaces. The main problems are: 1) Difficulty finding available spaces in real-time, 2) Lack of pricing transparency, 3) No way to verify workspace quality beforehand..."
+                          data-testid="input-product-description"
                           {...field}
                         />
                       </FormControl>
@@ -185,20 +201,20 @@ export default function MainContent({
                   )}
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
                     name="industry"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Target Industry</FormLabel>
+                        <FormLabel className="text-sm font-semibold text-foreground">Target Industry</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="h-12 glass-card border-gradient hover:glow-blue transition-all duration-200" data-testid="select-industry">
                               <SelectValue placeholder="Select Industry" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="glass-card border-gradient">
                             <SelectItem value="fintech">FinTech</SelectItem>
                             <SelectItem value="healthtech">HealthTech</SelectItem>
                             <SelectItem value="edtech">EdTech</SelectItem>
@@ -217,14 +233,14 @@ export default function MainContent({
                     name="urgency"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Urgency Level</FormLabel>
+                        <FormLabel className="text-sm font-semibold text-foreground">Urgency Level</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="h-12 glass-card border-gradient hover:glow-blue transition-all duration-200" data-testid="select-urgency">
                               <SelectValue />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="glass-card border-gradient">
                             <SelectItem value="low">Low - Research Phase</SelectItem>
                             <SelectItem value="medium">Medium - Planning Phase</SelectItem>
                             <SelectItem value="high">High - Ready to Build</SelectItem>
@@ -235,21 +251,23 @@ export default function MainContent({
                   />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-6">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 p-6 glass-card rounded-xl border border-muted">
+                  <div className="flex flex-col sm:flex-row gap-6">
                     <FormField
                       control={form.control}
                       name="includeMarketResearch"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
                             <Checkbox
                               checked={field.value}
                               onCheckedChange={field.onChange}
+                              className="border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                              data-testid="checkbox-market-research"
                             />
                           </FormControl>
-                          <FormLabel className="text-sm font-normal">
-                            Include Market Research
+                          <FormLabel className="text-sm font-medium cursor-pointer">
+                            Market Research
                           </FormLabel>
                         </FormItem>
                       )}
@@ -259,14 +277,16 @@ export default function MainContent({
                       control={form.control}
                       name="generatePRD"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
                             <Checkbox
                               checked={field.value}
                               onCheckedChange={field.onChange}
+                              className="border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                              data-testid="checkbox-generate-prd"
                             />
                           </FormControl>
-                          <FormLabel className="text-sm font-normal">
+                          <FormLabel className="text-sm font-medium cursor-pointer">
                             Generate PRD
                           </FormLabel>
                         </FormItem>
@@ -277,14 +297,16 @@ export default function MainContent({
                       control={form.control}
                       name="wireframeGuidance"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                           <FormControl>
                             <Checkbox
                               checked={field.value}
                               onCheckedChange={field.onChange}
+                              className="border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                              data-testid="checkbox-wireframe-guidance"
                             />
                           </FormControl>
-                          <FormLabel className="text-sm font-normal">
+                          <FormLabel className="text-sm font-medium cursor-pointer">
                             Wireframe Guidance
                           </FormLabel>
                         </FormItem>
@@ -294,10 +316,11 @@ export default function MainContent({
 
                   <Button 
                     type="submit" 
-                    className="bg-gradient-to-r from-ai-blue to-ai-indigo hover:from-blue-600 hover:to-indigo-600"
+                    className="btn-holographic h-12 px-8 font-semibold text-white shadow-lg w-full sm:w-auto"
                     disabled={createSessionMutation.isPending}
+                    data-testid="button-analyze-with-ai"
                   >
-                    <Sparkles className="h-4 w-4 mr-2" />
+                    <Sparkles className="h-5 w-5 mr-2" />
                     {createSessionMutation.isPending ? "Creating..." : "Analyze with AI"}
                   </Button>
                 </div>
@@ -306,30 +329,41 @@ export default function MainContent({
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-in">
           {/* Session Info Header */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-semibold">{currentSession?.title}</h2>
+          <Card className="glass-card border-gradient hover-lift transition-all duration-300">
+            <CardContent className="p-8">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-gradient mb-2" data-testid="text-session-title">
+                    {currentSession?.title}
+                  </h2>
                   {currentSession?.description && (
-                    <p className="text-gray-600 mt-1">{currentSession.description}</p>
+                    <p className="text-muted-foreground mt-2">{currentSession.description}</p>
                   )}
-                  <p className="text-sm text-gray-500 mt-2">{currentSession?.productInput}</p>
+                  <div className="mt-4 p-4 glass-card rounded-lg border border-muted">
+                    <p className="text-sm text-foreground leading-relaxed">{currentSession?.productInput}</p>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   {currentSession?.status === "pending" && (
                     <Button 
                       onClick={handleAnalyze}
-                      className="bg-gradient-to-r from-ai-blue to-ai-indigo hover:from-blue-600 hover:to-indigo-600"
+                      className="btn-holographic h-12 px-6 font-semibold text-white shadow-lg"
                       disabled={analyzeSessionMutation.isPending}
+                      data-testid="button-start-analysis"
                     >
-                      <Sparkles className="h-4 w-4 mr-2" />
+                      <Zap className="h-5 w-5 mr-2" />
                       {analyzeSessionMutation.isPending ? "Analyzing..." : "Start Analysis"}
                     </Button>
                   )}
-                  <Button variant="outline" onClick={() => setIsFormMode(true)}>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setIsFormMode(true)}
+                    className="h-12 px-6 glass-card border-gradient hover-lift"
+                    data-testid="button-edit-session"
+                  >
+                    <Edit className="h-4 w-4 mr-2" />
                     Edit Session
                   </Button>
                 </div>
@@ -338,7 +372,7 @@ export default function MainContent({
           </Card>
 
           {/* Results */}
-          {currentSession.results && (
+          {currentSession?.results && (
             <div className="space-y-6">
               <AIDashboard results={currentSession.results as AnalysisResult} />
               
